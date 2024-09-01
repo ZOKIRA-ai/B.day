@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, HAYAT!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 3px solid #ff61a6;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2em;
+        }
+
+        nav a {
+            color: #ff61a6;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff4a8d;
+            transform: scale(1.1);
+        }
+
+        .container {
+            display: grid;
+            gap: 40px;
+            padding: 40px;
+            grid-template-columns: 1fr;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: url('https://source.unsplash.com/1600x900/?birthday') center/cover no-repeat;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero h1 {
+            position: relative;
+            font-size: 4em;
+            margin: 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .hero p {
+            position: relative;
+            font-size: 1.5em;
+            margin: 15px 0;
+            animation: fadeIn 2s ease-out 0.5s;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h2 {
+            color: #ff61a6;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            display: block;
+            height: 5px;
+            width: 60px;
+            background: #ff61a6;
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        .messages {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+        }
+
+        .message {
+            background: #ffe4e1;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            font-size: 1.2em;
+        }
+
+        .message h3 {
+            color: #ff61a6;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .quote {
+            background: #fff;
+            color: #ff61a6;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            font-style: italic;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .signature {
+            font-style: italic;
+            color: #666;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        #confetti .piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 105, 180, 0.8);
+            animation: confettiFall 5s linear infinite;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#fun-facts">Fun Facts</a>
+            <a href="#imagination">Imagination</a>
+            <a href="#messages">Messages</a>
+            <a href="#quote">Quote</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div id="home" class="hero">
+            <h1>Happy Birthday, HAYAT!</h1>
+            <p>Celebrating the amazing friend you are and the joy you bring into my life.</p>
+        </div>
+
+        <div id="fun-facts" class="section">
+            <h2>Fun Facts About You:</h2>
+            <p>You’re the life of the party with your infectious laugh and playful spirit. Your creativity turns
+                everyday moments into magical adventures. I’m so grateful for your friendship and the joy you bring to
+                my life.</p>
+        </div>
+
+        <div id="imagination" class="section">
+            <h2>Your Imagination:</h2>
+            <p>Your mind is a wonderland of creativity. From whimsical daydreams to inspiring stories, your imagination
+                lights up every moment. Keep dreaming big and spreading your unique magic!</p>
+        </div>
+
+        <div id="messages" class="section messages">
+            <h2>Special Birthday Messages:</h2>
+            <div class="message">
+                <h3>Ye meri taraf se:</h3>
+                <p>Happy Birthday, HAYAT! Your kindness and generosity know no bounds. I’m so lucky to have you as a
+                    friend. Wishing you a day as special as you are!</p>
+            </div>
+            <div class="message">
+                <h3>Ye bhee meri taraf se:</h3>
+                <p>Happy Birthday to the one who makes every day brighter! May your year be filled with endless
+                    happiness, love, and success. Cheers to another year of wonderful memories together!</p>
+            </div>
+            <div class="message">
+                <h3>Aur ye bhee meri taraf se:</h3>
+                <p>On your special day, I just want to say how much I appreciate your friendship. You’re truly one of a
+                    kind. Have a fantastic birthday and an even better year ahead!</p>
+            </div>
+        </div>
+
+        <div id="quote" class="section quote">
+            <h2>"SWEET-HEART"</h2>
+            <p>"HAPPY BIRTHDAY!!! ANOTHER YEAR YOU'RE JUST GETTING SWEETER... –</p>
+        </div>
+
+        <p class="signature">With all my love,<br>[UMAR FAROOQUE]</p>
+    </div>
+
+    <div id="confetti"></div>
+
+    <script>
+        // Confetti Animation
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const confettiCount = 150;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('piece');
+                confetti.style.backgroundColor = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.8)`;
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * 100}vh`;
+                confetti.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                confetti.style.animationDelay = `${Math.random() * 5}s`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+        createConfetti();
+    </script>
+</body>
+
+</html>

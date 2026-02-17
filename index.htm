@@ -75,26 +75,36 @@ nav a:hover{
 .hero h1{
     font-size:clamp(2rem,6vw,3.5rem);
     margin-bottom:20px;
-    text-shadow:0 0 20px rgba(255,105,180,0.8);
+    color:#ff4da6;
+    text-shadow:0 0 15px #ff4da6, 0 0 25px #ff9ac9, 0 0 35px #ff2f87;
+    opacity:0;
+    transform:translateY(-50px);
+    animation:slideDownHBD 1s forwards;
 }
 
-/* typing text */
-.typing-cursor{
-    border-right:2px solid #ff9ac9;
-    animation:blink 1s infinite;
+@keyframes slideDownHBD{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-@keyframes blink{
-    50%{border-color:transparent}
+.hero .typing-text{
+    font-size:clamp(1rem,4vw,1.2rem);
+    margin-bottom:20px;
+    white-space:pre-wrap;
+    opacity:0;
 }
 
-/* slide down animation */
-.slide-down{
-    display:inline-block;
+.hero .everything{
+    font-size:clamp(1.1rem,4vw,1.3rem);
+    margin-top:15px;
     opacity:0;
     transform:translateY(-20px);
-    animation:slideDown 1s ease forwards;
-    animation-delay:3.5s;
+}
+
+.slide-down{
+    animation:slideDown 0.8s forwards;
 }
 
 @keyframes slideDown{
@@ -102,6 +112,15 @@ nav a:hover{
         opacity:1;
         transform:translateY(0);
     }
+}
+
+.fade-in{
+    animation:fadeIn 1s forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 .section{
@@ -173,6 +192,7 @@ justify-content:center;
 gap:25px;
 flex-wrap:wrap;
 margin-top:30px;
+opacity:0;
 }
 
 .photo-container{
@@ -185,6 +205,7 @@ justify-content:center;
 align-items:center;
 }
 
+/* neon ring */
 .photo-container::before{
 content:'';
 position:absolute;
@@ -202,6 +223,7 @@ filter:blur(6px);
 z-index:0;
 }
 
+/* inner dark mask */
 .photo-container::after{
 content:'';
 position:absolute;
@@ -212,6 +234,7 @@ border-radius:50%;
 z-index:1;
 }
 
+/* image */
 .photo-container img{
 position:relative;
 width:92%;
@@ -235,10 +258,11 @@ box-shadow:
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg);} 
-100%{transform:rotate(360deg);} 
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
 }
 
+/* Bottom Heart Section */
 .heart-section{
     background:rgba(255,20,147,0.05);
     text-align:center;
@@ -284,21 +308,18 @@ box-shadow:
 
 <section id="home" class="hero">
 <h1>Happy Birthday, My Love ❤️</h1>
-<p>
-<span id="typing-text" class="typing-cursor"></span>
-<br><br>
-<span class="slide-down">My Everything(11.11)</span>
-</p>
+<div class="typing-text"></div>
+<div class="everything">My Everything (11.11)</div>
 
 <div class="photo">
     <div class="photo-container">
-        <img src="1.jpeg" alt="Photo 1">
+        <img src="photo1.jpg" alt="Photo 1">
     </div>
     <div class="photo-container">
-        <img src="2.jpeg" alt="Photo 2">
+        <img src="photo2.jpg" alt="Photo 2">
     </div>
     <div class="photo-container">
-        <img src="3.jpeg" alt="Photo 3">
+        <img src="photo3.jpg" alt="Photo 3">
     </div>
 </div>
 </section>
@@ -341,24 +362,7 @@ AWPKA JAHAZ💘
 </div>
 
 <script>
-
-// typing effect
-const text = "You are the most beautiful chapter of my life, and today we celebrate you.";
-const typingElement = document.getElementById("typing-text");
-let index = 0;
-
-function type(){
-    if(index < text.length){
-        typingElement.innerHTML += text.charAt(index);
-        index++;
-        setTimeout(type, 40);
-    }else{
-        typingElement.classList.remove("typing-cursor");
-    }
-}
-
-type();
-
+/* Heart float */
 function createHeart(){
     const heart=document.createElement("div");
     heart.className="heart";
@@ -370,8 +374,34 @@ function createHeart(){
 }
 setInterval(createHeart,600);
 
+/* Typing effect and sequence */
+const typingText = "You are the most beautiful chapter of my life, and today we celebrate you.";
+const typingDiv = document.querySelector(".typing-text");
+const everythingDiv = document.querySelector(".everything");
+const photosDiv = document.querySelector(".photo");
+
+let index=0;
+
+function typeMessage(){
+    if(index<typingText.length){
+        typingDiv.style.opacity=1;
+        typingDiv.innerHTML += typingText[index];
+        index++;
+        setTimeout(typeMessage,40);
+    }else{
+        // slide down "My Everything" after typing
+        everythingDiv.classList.add("slide-down");
+        everythingDiv.addEventListener("animationend",()=>{
+            // fade in photos after everything slides down
+            photosDiv.classList.add("fade-in");
+        });
+    }
+}
+
+window.addEventListener("load",()=>{
+    typeMessage();
+});
 </script>
 
 </body>
 </html>
-

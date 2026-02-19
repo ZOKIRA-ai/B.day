@@ -290,6 +290,124 @@ box-shadow:
         height:min(140px,40vw);
     }
 }
+/* Letter Button */
+.letter-btn{
+position:fixed;
+right:20px;
+bottom:20px;
+width:65px;
+height:65px;
+border-radius:50%;
+background:linear-gradient(135deg,#ff4da6,#ff9ac9);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+color:white;
+cursor:pointer;
+box-shadow:0 0 15px #ff4da6,0 0 30px #ff4da6,0 0 45px #ff9ac9;
+z-index:5000;
+transition:0.3s;
+}
+
+.letter-btn:hover{
+transform:scale(1.1);
+}
+
+/* Letter overlay */
+.letter-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
+transition:0.4s;
+z-index:6000;
+}
+
+.letter-overlay.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.letter-box{
+width:min(500px,90%);
+background:#1a0010;
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 25px #ff4da6,0 0 50px rgba(255,77,166,0.4);
+text-align:center;
+transform:scale(0.8);
+opacity:0;
+transition:0.4s;
+}
+
+.letter-overlay.show .letter-box{
+transform:scale(1);
+opacity:1;
+}
+
+.letter-text{
+    margin-top:15px;
+    font-size:1rem;
+    color:#ffb0d6;
+    white-space:pre-wrap;
+    height:250px;          /* fixed height to allow scrolling */
+    overflow-y:auto;        /* enable vertical scroll */
+    padding-right:6px;      /* avoid content under scrollbar */
+    scroll-behavior:smooth;
+}
+
+/* Webkit scrollbar - neon pink */
+.letter-text::-webkit-scrollbar {
+    width:6px;
+}
+
+.letter-text::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+.letter-text::-webkit-scrollbar-thumb {
+    background:#ff4da6;
+    border-radius:10px;
+    box-shadow:0 0 10px #ff4da6;
+}
+
+.letter-text::-webkit-scrollbar-thumb:hover {
+    background:#ff79c1;
+    box-shadow:0 0 15px #ff79c1;
+}
+/* Letter box paper unfolding animation */
+.letter-box {
+    transform-origin: top center; /* unfold from top like a paper */
+    transition:transform 0.6s ease, opacity 0.6s ease;
+    transform: scaleY(0); /* start folded */
+    opacity:0;
+}
+
+.letter-overlay.show .letter-box {
+    transform: scaleY(1); /* unfolds to full height */
+    opacity:1;
+}
+
+/* Optional: add slight shadow for paper depth */
+.letter-box::before {
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    border-radius:20px;
+    box-shadow: inset 0 0 20px rgba(255,77,166,0.3);
+    pointer-events:none;
+}
+
+
 </style>
 </head>
 
@@ -360,6 +478,38 @@ AWPKA JAHAZ💘
 </div>
 
 </div>
+<!-- Letter Button -->
+<div class="letter-btn" onclick="openLetter()">💌</div>
+
+<!-- Letter Overlay -->
+<div class="letter-overlay" id="letterOverlay">
+<div class="letter-box">
+
+<h2 style="color:#ff4da6;">"LETTER FOR MY LETTERPAGLU❤️"</h2>
+
+<div class="letter-text" id="letterText"></div>
+
+<audio controls style="margin-top:15px;width:100%;">
+<source src="voice.mp3" type="audio/mpeg">
+</audio>
+
+<br><br>
+
+<button onclick="closeLetter()" style="
+padding:8px 18px;
+border:none;
+border-radius:10px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+box-shadow:0 0 10px #ff4da6;
+">
+Close ❤️
+</button>
+
+</div>
+</div>
+
 
 <script>
 /* Heart float */
@@ -401,6 +551,52 @@ function typeMessage(){
 window.addEventListener("load",()=>{
     typeMessage();
 });
+/* Letter system */
+
+const letterMessage = `MERI JAWN
+
+This letter holds the words my heart speaks every day.
+
+You are my peace, my happiness, and my forever.
+
+No matter what happens, my heart will always belong to you.
+This letter holds the words my heart speaks every day.
+
+You are my peace, my happiness, and my forever.
+
+No matter what happens, my heart will always belong to you.
+
+
+Forever yours,
+  Jahaz ❤️`;
+
+let letterIndex=0;
+let typingLetter=false;
+function typeLetter() {
+    const letterEl = document.getElementById("letterText");
+    if (letterIndex < letterMessage.length) {
+        letterEl.innerHTML += letterMessage[letterIndex];
+        letterIndex++;
+        setTimeout(typeLetter, 30); // speed of typing
+    }
+}
+
+
+function openLetter() {
+    const overlay = document.getElementById("letterOverlay");
+    overlay.classList.add("show"); // triggers unfolding animation
+    if (!typingLetter) {
+        typingLetter = true;
+        typeLetter();
+    }
+}
+
+function closeLetter() {
+    const overlay = document.getElementById("letterOverlay");
+    overlay.classList.remove("show"); // folds back smoothly
+}
+
+
 </script>
 
 </body>

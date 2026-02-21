@@ -25,6 +25,42 @@ body{
     overflow-x:hidden;
 }
 
+/* Curtain overlay */
+.curtains{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:radial-gradient(circle at center,#ff4da6,#ff2f87);
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:opacity 1s ease;
+}
+
+.curtains-text{
+    font-size:2.5rem;
+    color:#fff;
+    text-shadow:0 0 15px #ff4da6,0 0 25px #ff9ac9;
+    font-weight:600;
+    text-align:center;
+    animation:blink 1.2s infinite alternate;
+}
+
+@keyframes blink{
+    from{opacity:1;}
+    to{opacity:0.5;}
+}
+
+.container{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+    opacity:0; /* Hidden until curtains removed */
+}
+
 header{
     position:sticky;
     top:0;
@@ -55,13 +91,6 @@ nav a:hover{
     text-shadow:0 0 10px #ff4da6;
 }
 
-.container{
-    width:100%;
-    max-width:1000px;
-    margin:auto;
-    padding:20px;
-}
-
 .hero{
     min-height:100vh;
     display:flex;
@@ -79,14 +108,6 @@ nav a:hover{
     text-shadow:0 0 15px #ff4da6, 0 0 25px #ff9ac9, 0 0 35px #ff2f87;
     opacity:0;
     transform:translateY(-50px);
-    animation:slideDownHBD 1s forwards;
-}
-
-@keyframes slideDownHBD{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
 .hero .typing-text{
@@ -358,9 +379,9 @@ opacity:1;
     font-size:1rem;
     color:#ffb0d6;
     white-space:pre-wrap;
-    height:250px;          /* fixed height to allow scrolling */
-    overflow-y:auto;        /* enable vertical scroll */
-    padding-right:6px;      /* avoid content under scrollbar */
+    height:250px;
+    overflow-y:auto;
+    padding-right:6px;
     scroll-behavior:smooth;
 }
 
@@ -383,20 +404,20 @@ opacity:1;
     background:#ff79c1;
     box-shadow:0 0 15px #ff79c1;
 }
+
 /* Letter box paper unfolding animation */
 .letter-box {
-    transform-origin: top center; /* unfold from top like a paper */
+    transform-origin: top center;
     transition:transform 0.6s ease, opacity 0.6s ease;
-    transform: scaleY(0); /* start folded */
+    transform: scaleY(0);
     opacity:0;
 }
 
 .letter-overlay.show .letter-box {
-    transform: scaleY(1); /* unfolds to full height */
+    transform: scaleY(1);
     opacity:1;
 }
 
-/* Optional: add slight shadow for paper depth */
 .letter-box::before {
     content:'';
     position:absolute;
@@ -406,12 +427,57 @@ opacity:1;
     box-shadow: inset 0 0 20px rgba(255,77,166,0.3);
     pointer-events:none;
 }
+/* Curtains overlay - cinematic style */
+.curtains{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:linear-gradient(120deg, #2a0018, #4b0033, #1a0010, #4b0033, #2a0018);
+    background-size: 400% 400%;
+    animation:gradientMove 10s ease infinite;
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    overflow:hidden;
+    transition:opacity 1s ease;
+}
 
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
+.curtains-text{
+    font-size:3rem;
+    color:#ff4da6;
+    font-weight:700;
+    text-align:center;
+    text-shadow: 
+      0 0 5px #ff4da6,
+      0 0 15px #ff79c1,
+      0 0 25px #ff2f87,
+      0 0 35px #ff4da6;
+    animation:neonFlicker 1.8s infinite alternate;
+}
+
+@keyframes neonFlicker{
+    0%{opacity:0.8; text-shadow:0 0 5px #ff4da6,0 0 15px #ff79c1,0 0 25px #ff2f87,0 0 35px #ff4da6;}
+    50%{opacity:1; text-shadow:0 0 10px #ff4da6,0 0 20px #ff79c1,0 0 35px #ff2f87,0 0 50px #ff4da6;}
+    100%{opacity:0.85; text-shadow:0 0 5px #ff4da6,0 0 15px #ff79c1,0 0 25px #ff2f87,0 0 35px #ff4da6;}
+}
 </style>
 </head>
 
 <body>
+
+<!-- Curtains overlay -->
+<div class="curtains" id="curtains">
+  <div class="curtains-text">HAPPY BIRTHDAY MAGGU <br>SOMETHING SPECIAL FOR SPECIAL ONE
+  </div>
+</div>
 
 <header>
 <nav>
@@ -422,10 +488,10 @@ opacity:1;
 </nav>
 </header>
 
-<div class="container">
+<div class="container" id="mainContainer">
 
 <section id="home" class="hero">
-<h1>Happy Birthday, My Love ❤️</h1>
+<h1 id="hbdText">Happy Birthday, My Love ❤️</h1>
 <div class="typing-text"></div>
 <div class="everything">My Everything (11.11)</div>
 
@@ -444,25 +510,25 @@ opacity:1;
 
 <section id="about" class="section">
 <h2>What You Mean To Me💓🫂</h2>
-<p>You are my peace, my happiness, and my strength. Your presence makes my worst days better and my best days unforgettable. You are not just someone in my life. You are my heart, my comfort, and my home💕</p>
+<p>You are my peace in chaos(KALESHI BEGUM HAI), my happiness(DEKHTY HEE BLUSH AAJATA), and my strength(PAR AWPSE KON BACHAE GA MEKO?). Your presence makes my worst days better and my best days unforgettable. You are not just someone in my life(YOU TO KHUD HEE ZINDAGI HO G). You are my heart(QALB-E-UMAR), my comfort(DEKH KE HEE SUKOON MILTA), and my home(APNE BACHE KEE TRHA RAKHTI)💕</p>
 </section>
 
 <section id="messages" class="section">
-<h2>My Messages For You😘💗</h2>
+<h2>My PYAAR For You😘💗</h2>
 
 <div class="message">
 <h3>From my heart:</h3>
-<p>Happy Birthday MAGGU🖤. You are the most beautiful part of my life. Your smile gives me peace, your voice gives me comfort, and your presence makes everything feel complete. I’m truly grateful to have you💖</p>
+<p>HAPPY BIRTHDAY MAGGU!!🖤. You are the most beautiful part of my life(AGAIN YK NA YOU ARE THE LIFE). Your smile gives me butterflies, your voice gives me itni khushee ke puri zindagi bagair thaqe sun skta aur sunna chahta, and your presence makes everything feel complete(UMAR SAFA KE BAGAIR ADHURA HAI). I’m truly grateful to have you(AFTER ALL SAB KUCH HAI MERA)💖</p>
 </div>
 
 <div class="message">
 <h3>For the one I love the most:</h3>
-<p>You are not just special, you are my happiness, my safe place, and my favorite person. Every moment with you is precious. I promise to always stand beside you, support you, and love you more with every passing day💝</p>
+<p>You are not just special, you are my happiness(WO BHEE REAL WALI LIKE EK HOTA NA BANDA FLOW MN BOLTA KE BDAY HAI YE BOL DETY HN, NH JAWNU I ADMIT YOU REALLY REALLY MAKE ME SO HAPPY AND FEEL LOVED AND BLESSED AGH), my safe place(APUN KO HAR WAQT STRONG BAN KE NH REHNA PARTA AND APUN RO SKTA WITHOUT BEING JUDGED KE LARKA HAI, BARA HAI, MATURE BAN YE WO), and my favorite person(EVEN THOUGH YK KE MAIN CHOOSE NH KAR PATA BUT YOU ARE THE BEST CHOICE I MADE IN MY ENTIRE LIFE). Every moment with you is precious(AWPKE BAGAIR 1 GHANTA BHEE 60 MIN LAGTA G BUT AWPKE SATH 3 GHANTE BHEE 10 MIN LAGTE). I promise to always stand beside you, support you, and love you more with every passing day(MUWAHHHH)💝</p>
 </div>
 
 <div class="message">
 <h3>On your special day:</h3>
-<p>On your birthday, I just want you to know how important you are to me. You make my world brighter and my life more meaningful. I hope this year brings you endless happiness, success, and all the love you deserve💌(especially mine🤭)</p>
+<p>On your birthday, I just want you to know how important you are to me(YAAWR PRIORITY HAI OBVSS NA). You make my world brighter(GORI AWAM FOR A REASON) and my life more meaningful(EVEN THOUGH WE YAP ABOUT MEANINGLESS THINGS FOR HOURS). I hope this year brings you endless happiness, success, and all the love you deserve💌(especially mine🤭). And I want you to enjoy your day to the fullest baba sain.</p>
 </div>
 
 </section>
@@ -470,6 +536,7 @@ opacity:1;
 <div class="heart-section" id="heart">
 <h2>Forever Promise ❤️</h2>
 <p>You are my today, my tomorrow, and every beautiful moment in between. Forever and always, my heart belongs to YOU💖</p>
+<p>[HOPE YOU LIKED THIS CHOTU SA GIFT]</p>
 </div>
 
 <div class="signature">
@@ -510,7 +577,6 @@ Close ❤️
 </div>
 </div>
 
-
 <script>
 /* Heart float */
 function createHeart(){
@@ -524,50 +590,54 @@ function createHeart(){
 }
 setInterval(createHeart,600);
 
-/* Typing effect and sequence */
-const typingText = "You are the most beautiful chapter of my life, and today we celebrate you.";
+/* Typing effect elements */
 const typingDiv = document.querySelector(".typing-text");
 const everythingDiv = document.querySelector(".everything");
 const photosDiv = document.querySelector(".photo");
+const hbdText = document.getElementById("hbdText");
 
-let index=0;
+/* Typing message */
+const typingText = "You are the most beautiful chapter of my life, and today we celebrate you.(YAYAYAY!!)";
 
-function typeMessage(){
-    if(index<typingText.length){
-        typingDiv.style.opacity=1;
-        typingDiv.innerHTML += typingText[index];
-        index++;
-        setTimeout(typeMessage,40);
-    }else{
-        // slide down "My Everything" after typing
-        everythingDiv.classList.add("slide-down");
-        everythingDiv.addEventListener("animationend",()=>{
-            // fade in photos after everything slides down
-            photosDiv.classList.add("fade-in");
-        });
-    }
+/* Sequence control */
+function startSequence(){
+    const container = document.getElementById("mainContainer");
+    container.style.opacity = 1; // show container
+    // HBD slide down
+    hbdText.classList.add("slide-down");
+    hbdText.addEventListener("animationend",()=>{
+        // start typing
+        let index=0;
+        function typeMessage(){
+            if(index<typingText.length){
+                typingDiv.style.opacity=1;
+                typingDiv.innerHTML += typingText[index];
+                index++;
+                setTimeout(typeMessage,40);
+            }else{
+                // Slide down My Everything
+                everythingDiv.classList.add("slide-down");
+                everythingDiv.addEventListener("animationend",()=>{
+                    // Fade in photos
+                    photosDiv.classList.add("fade-in");
+                });
+            }
+        }
+        typeMessage();
+    });
 }
 
-window.addEventListener("load",()=>{
-    typeMessage();
+/* Curtains click */
+document.getElementById("curtains").addEventListener("click", ()=>{
+    const curtains = document.getElementById("curtains");
+    curtains.style.opacity = 0;
+    setTimeout(()=>curtains.remove(),1000); // remove curtains
+    startSequence();
 });
+
 /* Letter system */
-
 const letterMessage = `MERI JAWN
-
-This letter holds the words my heart speaks every day.
-
-You are my peace, my happiness, and my forever.
-
-No matter what happens, my heart will always belong to you.
-This letter holds the words my heart speaks every day.
-
-You are my peace, my happiness, and my forever.
-
-No matter what happens, my heart will always belong to you.
-
-
-Forever yours,
+AWPKA JAWNU MANU SHOHAR
   Jahaz ❤️`;
 
 let letterIndex=0;
@@ -577,14 +647,13 @@ function typeLetter() {
     if (letterIndex < letterMessage.length) {
         letterEl.innerHTML += letterMessage[letterIndex];
         letterIndex++;
-        setTimeout(typeLetter, 30); // speed of typing
+        setTimeout(typeLetter, 30); 
     }
 }
 
-
 function openLetter() {
     const overlay = document.getElementById("letterOverlay");
-    overlay.classList.add("show"); // triggers unfolding animation
+    overlay.classList.add("show"); 
     if (!typingLetter) {
         typingLetter = true;
         typeLetter();
@@ -593,13 +662,9 @@ function openLetter() {
 
 function closeLetter() {
     const overlay = document.getElementById("letterOverlay");
-    overlay.classList.remove("show"); // folds back smoothly
+    overlay.classList.remove("show"); 
 }
-
-
 </script>
 
 </body>
 </html>
-
-

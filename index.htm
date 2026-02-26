@@ -427,20 +427,18 @@ opacity:1;
     box-shadow: inset 0 0 20px rgba(255,77,166,0.3);
     pointer-events:none;
 }
-/* ---------------- CINEMATIC CURTAINS ---------------- */
+/* ---------------- CINEMATIC SMOOTH CURTAINS ---------------- */
 #curtains {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     z-index: 9999;
-    overflow: hidden;
-    background: #1a0010; /* dark base behind curtains */
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    background: #1a0010; /* dark background behind curtains */
+    overflow: hidden;
 }
 
 /* Left and right curtain panels */
@@ -450,60 +448,38 @@ opacity:1;
     top: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, #2a0018, #4b0033, #1a0010, #4b0033, #2a0018);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-    transition: transform 1.2s ease-in-out;
+    background: linear-gradient(160deg, #2a0018, #4b0033, #1a0010);
+    transition: transform 1.2s cubic-bezier(0.77,0,0.175,1);
     z-index: 9998;
 }
 
-/* Positioning each curtain */
-.curtain-left {
-    left: 0;
-    transform: translateX(0);
-}
+/* Initial positions */
+.curtain-left { left: 0; transform: translateX(0); }
+.curtain-right { right: 0; transform: translateX(0); }
 
-.curtain-right {
-    right: 0;
-    transform: translateX(0);
-}
-
-/* Open animation: slide curtains out */
-.curtain-left.open {
-    transform: translateX(-100%);
-}
-
-.curtain-right.open {
-    transform: translateX(100%);
-}
+/* Open state */
+.curtain-left.open { transform: translateX(-100%); }
+.curtain-right.open { transform: translateX(100%); }
 
 /* Curtains text */
 .curtains-text {
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: #ff4da6;
     font-weight: 700;
     text-align: center;
     text-shadow: 
-      0 0 5px #ff4da6,
-      0 0 15px #ff79c1,
-      0 0 25px #ff2f87,
-      0 0 35px #ff4da6;
-    animation: neonFlicker 1.8s infinite alternate;
+        0 0 5px #ff4da6,
+        0 0 10px #ff79c1,
+        0 0 15px #ff2f87;
+    animation: neonFlicker 1.5s infinite alternate;
     z-index: 9999;
 }
 
-/* Neon flicker for curtains text */
+/* Neon flicker */
 @keyframes neonFlicker {
-    0% {opacity: 0.8; text-shadow: 0 0 5px #ff4da6, 0 0 15px #ff79c1, 0 0 25px #ff2f87, 0 0 35px #ff4da6;}
-    50% {opacity: 1; text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff79c1, 0 0 35px #ff2f87, 0 0 50px #ff4da6;}
-    100% {opacity: 0.85; text-shadow: 0 0 5px #ff4da6, 0 0 15px #ff79c1, 0 0 25px #ff2f87, 0 0 35px #ff4da6;}
-}
-
-/* Gradient movement for curtains */
-@keyframes gradientMove {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    0% {opacity:0.85;}
+    50% {opacity:1;}
+    100% {opacity:0.9;}
 }
 </style>
 </head>
@@ -665,22 +641,21 @@ function startSequence() {
     });
 }
 
-/* ---------------- CURTAINS CLICK ---------------- */
+// Curtains click - smooth cinematic open
 document.getElementById("curtains").addEventListener("click", () => {
-    // Slide curtains off
-    document.querySelector(".curtain-left").classList.add("open");
-    document.querySelector(".curtain-right").classList.add("open");
-    
-    // Fade out text
-    const text = document.querySelector(".curtains-text");
-    text.style.transition = "opacity 0.6s ease";
-    text.style.opacity = 0;
+    const left = document.querySelector(".curtain-left");
+    const right = document.querySelector(".curtain-right");
+    const curtains = document.getElementById("curtains");
 
-    // After animation, remove curtains
+    // Add open class for smooth slide
+    left.classList.add("open");
+    right.classList.add("open");
+
+    // Remove curtains after animation completes
     setTimeout(() => {
-        document.getElementById("curtains").remove();
-        startSequence(); // Start HBD sequence
-    }, 1200); // Match CSS transition duration
+        curtains.remove();
+        startSequence(); // call your HBD sequence function
+    }, 1300); // matches CSS transition time
 });
 
 /* ---------------- LETTER SYSTEM ---------------- */

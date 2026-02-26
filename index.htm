@@ -481,6 +481,21 @@ opacity:1;
     50% {opacity:1;}
     100% {opacity:0.9;}
 }
+.neon-button {
+    color: #ff4da6;
+    text-decoration: underline;
+    text-shadow:
+        0 0 5px #ff4da6,
+        0 0 10px #ff79c1,
+        0 0 15px #ff2f87,
+        0 0 20px #ff4da6;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.neon-button:hover {
+    transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -570,6 +585,10 @@ AWPKA JAHAZ💘
 
 <div class="letter-text" id="letterText"></div>
 
+<video id="childVideo" width="100%" controls style="display:none; margin-top:15px;">
+  <source src="chilhood.mp4" type="video/mp4">
+</video>
+
 <audio controls style="margin-top:15px;width:100%;">
 <source src="voice.mp3" type="audio/mpeg">
 </audio>
@@ -589,6 +608,41 @@ Close ❤️
 </button>
 
 </div>
+</div>
+<!-- Fullscreen Video Overlay -->
+<div id="videoOverlay" style="
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.95);
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+    flex-direction:column;
+">
+    <!-- Close button -->
+    <span id="closeVideo" style="
+        position:absolute;
+        top:20px; right:30px;
+        font-size:2.5rem;
+        color:#ff4da6;
+        cursor:pointer;
+        text-shadow:0 0 15px #ff4da6;
+        z-index:10001;
+    ">✖</span>
+
+    <!-- Responsive video -->
+    <video id="childVideoFull" style="
+        max-width:95%;
+        max-height:95%;
+        width:auto;
+        height:auto;
+        border-radius:15px;
+        box-shadow:0 0 20px #ff4da6, 0 0 40px #ff79c1;
+    " controls>
+        <source src="chilhood.mp4" type="video/mp4">
+    </video>
 </div>
 
 <script>
@@ -659,23 +713,43 @@ document.getElementById("curtains").addEventListener("click", () => {
 });
 
 /* ---------------- LETTER SYSTEM ---------------- */
-const letterMessage = `MERI JAWN
-
-AWPKA JAWNU MANU SHOHAR
-Jahaz ❤️`;
-
+// ---------------- LETTER TYPING ----------------
 let letterIndex = 0;
 let typingLetter = false;
 
 function typeLetter() {
     const letterEl = document.getElementById("letterText");
+    const letterMessage = `MERI JAWN
+
+AWPKA JAWNU MANU SHOHAR
+Jahaz ❤️
+\n\n`; // your original letter content
+
     if (letterIndex < letterMessage.length) {
         letterEl.innerHTML += letterMessage[letterIndex];
         letterIndex++;
-        setTimeout(typeLetter, 30);
+        setTimeout(typeLetter, 30); // keep your original typing speed
+    } else {
+        // Add the special "MERA BACHAW" inline text
+        const specialText = document.createElement("span");
+        specialText.className = "neon-button";
+        specialText.innerText = "MERA BACHAW";
+
+        // On click, open full-screen video overlay
+        specialText.onclick = () => {
+            const videoOverlay = document.getElementById("videoOverlay");
+            const video = document.getElementById("childVideoFull");
+            videoOverlay.style.display = "flex";   // show overlay
+            video.currentTime = 0;                 // rewind video
+            video.play();                           // play video
+        };
+
+        letterEl.appendChild(document.createElement("br"));
+        letterEl.appendChild(specialText);
     }
 }
 
+// ---------------- OPEN LETTER ----------------
 function openLetter() {
     const overlay = document.getElementById("letterOverlay");
     overlay.classList.add("show");
@@ -685,10 +759,20 @@ function openLetter() {
     }
 }
 
+// ---------------- CLOSE LETTER ----------------
 function closeLetter() {
     const overlay = document.getElementById("letterOverlay");
     overlay.classList.remove("show");
 }
+
+// ---------------- CLOSE VIDEO OVERLAY ----------------
+document.getElementById("closeVideo").onclick = () => {
+    const videoOverlay = document.getElementById("videoOverlay");
+    const video = document.getElementById("childVideoFull");
+    video.pause();               // stop video
+    videoOverlay.style.display = "none"; // hide overlay
+};
+
 </script>
 
 </body>

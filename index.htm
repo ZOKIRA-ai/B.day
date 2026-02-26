@@ -427,46 +427,83 @@ opacity:1;
     box-shadow: inset 0 0 20px rgba(255,77,166,0.3);
     pointer-events:none;
 }
-/* Curtains overlay - cinematic style */
-.curtains{
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:linear-gradient(120deg, #2a0018, #4b0033, #1a0010, #4b0033, #2a0018);
+/* ---------------- CINEMATIC CURTAINS ---------------- */
+#curtains {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    overflow: hidden;
+    background: #1a0010; /* dark base behind curtains */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Left and right curtain panels */
+.curtain-left,
+.curtain-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, #2a0018, #4b0033, #1a0010, #4b0033, #2a0018);
     background-size: 400% 400%;
-    animation:gradientMove 10s ease infinite;
-    z-index:9999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    overflow:hidden;
-    transition:opacity 1s ease;
+    animation: gradientMove 10s ease infinite;
+    transition: transform 1.2s ease-in-out;
+    z-index: 9998;
 }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+/* Positioning each curtain */
+.curtain-left {
+    left: 0;
+    transform: translateX(0);
 }
 
-.curtains-text{
-    font-size:3rem;
-    color:#ff4da6;
-    font-weight:700;
-    text-align:center;
+.curtain-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+/* Open animation: slide curtains out */
+.curtain-left.open {
+    transform: translateX(-100%);
+}
+
+.curtain-right.open {
+    transform: translateX(100%);
+}
+
+/* Curtains text */
+.curtains-text {
+    font-size: 3rem;
+    color: #ff4da6;
+    font-weight: 700;
+    text-align: center;
     text-shadow: 
       0 0 5px #ff4da6,
       0 0 15px #ff79c1,
       0 0 25px #ff2f87,
       0 0 35px #ff4da6;
-    animation:neonFlicker 1.8s infinite alternate;
+    animation: neonFlicker 1.8s infinite alternate;
+    z-index: 9999;
 }
 
-@keyframes neonFlicker{
-    0%{opacity:0.8; text-shadow:0 0 5px #ff4da6,0 0 15px #ff79c1,0 0 25px #ff2f87,0 0 35px #ff4da6;}
-    50%{opacity:1; text-shadow:0 0 10px #ff4da6,0 0 20px #ff79c1,0 0 35px #ff2f87,0 0 50px #ff4da6;}
-    100%{opacity:0.85; text-shadow:0 0 5px #ff4da6,0 0 15px #ff79c1,0 0 25px #ff2f87,0 0 35px #ff4da6;}
+/* Neon flicker for curtains text */
+@keyframes neonFlicker {
+    0% {opacity: 0.8; text-shadow: 0 0 5px #ff4da6, 0 0 15px #ff79c1, 0 0 25px #ff2f87, 0 0 35px #ff4da6;}
+    50% {opacity: 1; text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff79c1, 0 0 35px #ff2f87, 0 0 50px #ff4da6;}
+    100% {opacity: 0.85; text-shadow: 0 0 5px #ff4da6, 0 0 15px #ff79c1, 0 0 25px #ff2f87, 0 0 35px #ff4da6;}
+}
+
+/* Gradient movement for curtains */
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 </style>
 </head>
@@ -474,9 +511,10 @@ opacity:1;
 <body>
 
 <!-- Curtains overlay -->
-<div class="curtains" id="curtains">
-  <div class="curtains-text">HAPPY BIRTHDAY MAGGU <br>SOMETHING SPECIAL FOR SPECIAL ONE
-  </div>
+<div id="curtains">
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+  <div class="curtains-text">HAPPY BIRTHDAY MAGGU<br>SOMETHING SPECIAL FOR SPECIAL ONE</div>
 </div>
 
 <header>
@@ -578,124 +616,94 @@ Close ❤️
 </div>
 
 <script>
-
-/* ================= HEARTS (START ONLY AFTER CURTAINS) ================= */
-let heartsInterval = null;
-
-function startHearts(){
-    function createHeart(){
-        const heart=document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="❤";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.animationDuration=(Math.random()*3+4)+"s";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),7000);
-    }
-    heartsInterval = setInterval(createHeart,600);
+/* ---------------- HEART FLOAT ---------------- */
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
 }
+setInterval(createHeart, 600);
 
-
-/* ================= ELEMENTS ================= */
+/* ---------------- HBD SEQUENCE ---------------- */
 const typingDiv = document.querySelector(".typing-text");
 const everythingDiv = document.querySelector(".everything");
 const photosDiv = document.querySelector(".photo");
 const hbdText = document.getElementById("hbdText");
-const container = document.getElementById("mainContainer");
-const curtains = document.getElementById("curtains");
 
+// Typing message
 const typingText = "You are the most beautiful chapter of my life, and today we celebrate you.(YAYAYAY!!)";
 
+function startSequence() {
+    const container = document.getElementById("mainContainer");
+    container.style.opacity = 1; // Show main content
 
-/* ================= MAIN SEQUENCE ================= */
-function startSequence(){
-
-    // Smooth fade in website
-    container.style.transition = "opacity 1.2s ease";
-    container.style.opacity = "1";
-
-    // Small delay for premium feel
-    setTimeout(()=>{
-
-        // HBD Slide Down
-        hbdText.classList.add("slide-down");
-
-        hbdText.addEventListener("animationend",()=>{
-
-            // Typing start
-            let index=0;
-
-            function typeMessage(){
-                if(index<typingText.length){
-                    typingDiv.style.opacity=1;
-                    typingDiv.innerHTML += typingText[index];
-                    index++;
-                    setTimeout(typeMessage,40);
-                }else{
-
-                    // My Everything Slide
-                    everythingDiv.classList.add("slide-down");
-
-                    everythingDiv.addEventListener("animationend",()=>{
-                        photosDiv.classList.add("fade-in");
-                    },{once:true});
-
-                }
+    // Slide down HBD text
+    hbdText.classList.add("slide-down");
+    hbdText.addEventListener("animationend", () => {
+        // Start typing message
+        let index = 0;
+        function typeMessage() {
+            if (index < typingText.length) {
+                typingDiv.style.opacity = 1;
+                typingDiv.innerHTML += typingText[index];
+                index++;
+                setTimeout(typeMessage, 40);
+            } else {
+                // Slide down "My Everything"
+                everythingDiv.classList.add("slide-down");
+                everythingDiv.addEventListener("animationend", () => {
+                    // Fade in photos
+                    photosDiv.classList.add("fade-in");
+                });
             }
-
-            typeMessage();
-
-        },{once:true});
-
-    },400);
-
-    // Start hearts AFTER website visible
-    setTimeout(()=>{
-        startHearts();
-    },1200);
+        }
+        typeMessage();
+    });
 }
 
+/* ---------------- CURTAINS CLICK ---------------- */
+document.getElementById("curtains").addEventListener("click", () => {
+    // Slide curtains off
+    document.querySelector(".curtain-left").classList.add("open");
+    document.querySelector(".curtain-right").classList.add("open");
+    
+    // Fade out text
+    const text = document.querySelector(".curtains-text");
+    text.style.transition = "opacity 0.6s ease";
+    text.style.opacity = 0;
 
-/* ================= CURTAIN CLICK ================= */
-curtains.addEventListener("click", ()=>{
-
-    // Disable double click
-    curtains.style.pointerEvents = "none";
-
-    // Smooth cinematic fade
-    curtains.style.transition = "opacity 1.2s ease";
-    curtains.style.opacity = "0";
-
-    // Wait until curtain fully gone
-    setTimeout(()=>{
-        curtains.remove();
-        startSequence();
-    },1200);
-
+    // After animation, remove curtains
+    setTimeout(() => {
+        document.getElementById("curtains").remove();
+        startSequence(); // Start HBD sequence
+    }, 1200); // Match CSS transition duration
 });
 
-
-/* ================= LETTER SYSTEM ================= */
+/* ---------------- LETTER SYSTEM ---------------- */
 const letterMessage = `MERI JAWN
 
 AWPKA JAWNU MANU SHOHAR
-  Jahaz ❤️`;
+Jahaz ❤️`;
 
-let letterIndex=0;
-let typingLetter=false;
+let letterIndex = 0;
+let typingLetter = false;
 
 function typeLetter() {
     const letterEl = document.getElementById("letterText");
     if (letterIndex < letterMessage.length) {
         letterEl.innerHTML += letterMessage[letterIndex];
         letterIndex++;
-        setTimeout(typeLetter, 30); 
+        setTimeout(typeLetter, 30);
     }
 }
 
 function openLetter() {
     const overlay = document.getElementById("letterOverlay");
-    overlay.classList.add("show"); 
+    overlay.classList.add("show");
     if (!typingLetter) {
         typingLetter = true;
         typeLetter();
@@ -704,11 +712,9 @@ function openLetter() {
 
 function closeLetter() {
     const overlay = document.getElementById("letterOverlay");
-    overlay.classList.remove("show"); 
+    overlay.classList.remove("show");
 }
-
 </script>
 
 </body>
 </html>
-

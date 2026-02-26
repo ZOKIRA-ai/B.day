@@ -578,64 +578,104 @@ Close ❤️
 </div>
 
 <script>
-/* Heart float */
-function createHeart(){
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.animationDuration=(Math.random()*3+4)+"s";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),7000);
-}
-setInterval(createHeart,600);
 
-/* Typing effect elements */
+/* ================= HEARTS (START ONLY AFTER CURTAINS) ================= */
+let heartsInterval = null;
+
+function startHearts(){
+    function createHeart(){
+        const heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.animationDuration=(Math.random()*3+4)+"s";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),7000);
+    }
+    heartsInterval = setInterval(createHeart,600);
+}
+
+
+/* ================= ELEMENTS ================= */
 const typingDiv = document.querySelector(".typing-text");
 const everythingDiv = document.querySelector(".everything");
 const photosDiv = document.querySelector(".photo");
 const hbdText = document.getElementById("hbdText");
+const container = document.getElementById("mainContainer");
+const curtains = document.getElementById("curtains");
 
-/* Typing message */
 const typingText = "You are the most beautiful chapter of my life, and today we celebrate you.(YAYAYAY!!)";
 
-/* Sequence control */
+
+/* ================= MAIN SEQUENCE ================= */
 function startSequence(){
-    const container = document.getElementById("mainContainer");
-    container.style.opacity = 1; // show container
-    // HBD slide down
-    hbdText.classList.add("slide-down");
-    hbdText.addEventListener("animationend",()=>{
-        // start typing
-        let index=0;
-        function typeMessage(){
-            if(index<typingText.length){
-                typingDiv.style.opacity=1;
-                typingDiv.innerHTML += typingText[index];
-                index++;
-                setTimeout(typeMessage,40);
-            }else{
-                // Slide down My Everything
-                everythingDiv.classList.add("slide-down");
-                everythingDiv.addEventListener("animationend",()=>{
-                    // Fade in photos
-                    photosDiv.classList.add("fade-in");
-                });
+
+    // Smooth fade in website
+    container.style.transition = "opacity 1.2s ease";
+    container.style.opacity = "1";
+
+    // Small delay for premium feel
+    setTimeout(()=>{
+
+        // HBD Slide Down
+        hbdText.classList.add("slide-down");
+
+        hbdText.addEventListener("animationend",()=>{
+
+            // Typing start
+            let index=0;
+
+            function typeMessage(){
+                if(index<typingText.length){
+                    typingDiv.style.opacity=1;
+                    typingDiv.innerHTML += typingText[index];
+                    index++;
+                    setTimeout(typeMessage,40);
+                }else{
+
+                    // My Everything Slide
+                    everythingDiv.classList.add("slide-down");
+
+                    everythingDiv.addEventListener("animationend",()=>{
+                        photosDiv.classList.add("fade-in");
+                    },{once:true});
+
+                }
             }
-        }
-        typeMessage();
-    });
+
+            typeMessage();
+
+        },{once:true});
+
+    },400);
+
+    // Start hearts AFTER website visible
+    setTimeout(()=>{
+        startHearts();
+    },1200);
 }
 
-/* Curtains click */
-document.getElementById("curtains").addEventListener("click", ()=>{
-    const curtains = document.getElementById("curtains");
-    curtains.style.opacity = 0;
-    setTimeout(()=>curtains.remove(),1000); // remove curtains
-    startSequence();
+
+/* ================= CURTAIN CLICK ================= */
+curtains.addEventListener("click", ()=>{
+
+    // Disable double click
+    curtains.style.pointerEvents = "none";
+
+    // Smooth cinematic fade
+    curtains.style.transition = "opacity 1.2s ease";
+    curtains.style.opacity = "0";
+
+    // Wait until curtain fully gone
+    setTimeout(()=>{
+        curtains.remove();
+        startSequence();
+    },1200);
+
 });
 
-/* Letter system */
+
+/* ================= LETTER SYSTEM ================= */
 const letterMessage = `MERI JAWN
 
 AWPKA JAWNU MANU SHOHAR
@@ -643,6 +683,7 @@ AWPKA JAWNU MANU SHOHAR
 
 let letterIndex=0;
 let typingLetter=false;
+
 function typeLetter() {
     const letterEl = document.getElementById("letterText");
     if (letterIndex < letterMessage.length) {
@@ -665,7 +706,9 @@ function closeLetter() {
     const overlay = document.getElementById("letterOverlay");
     overlay.classList.remove("show"); 
 }
+
 </script>
 
 </body>
 </html>
+
